@@ -8,13 +8,13 @@ export function Principal() {
   const navigate = useNavigate();
   const { user } = useAuthStore();
 
-  const formatarData = (data: string | null) => {
+  const idade = calcularIdade(user?.data_nascimento || null);
+  const signo = getSigno(user?.data_nascimento || null);
+
+  const formatarData = (data: string | null | undefined) => {
     if (!data) return '-';
     return new Date(data).toLocaleDateString('pt-BR');
   };
-
-  const idade = calcularIdade(user?.data_nascimento || null);
-  const signo = getSigno(user?.data_nascimento || null);
 
   return (
     <div className="w-full">

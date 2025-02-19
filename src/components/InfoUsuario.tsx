@@ -20,7 +20,7 @@ interface ValidationResult {
 
 interface UpdateAvatarResponse {
   profile: {
-    avatar_url: string;
+    avatar_url: string | null;
   } | null;
   error: Error | null;
 }
@@ -121,7 +121,7 @@ export function InfoUsuario({
 
       if (newName) {
         const validation = validateName(newName);
-        if (validation.isValid && validation.validName !== nome) {
+        if (validation.isValid && validation.validName && validation.validName !== nome) {
           const { user, error } = await authService.updateUserName(userId, validation.validName);
           
           if (error) throw error;
@@ -157,9 +157,9 @@ export function InfoUsuario({
     }
   };
 
-  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAvatarChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (!file) return;
+    if (!file || !userId) return;
 
     try {
       setIsUpdatingAvatar(true);
@@ -169,12 +169,17 @@ export function InfoUsuario({
       if (profile?.avatar_url) {
         onAvatarUpdate(profile.avatar_url);
       }
-    } catch (error: any) {
+
+      // Limpar o input file
+      if (event.target) {
+        event.target.value = '';
+      }
+    } catch (error) {
       console.error('Erro ao atualizar avatar:', error);
       Swal.fire({
         icon: 'error',
         title: 'Erro ao atualizar avatar',
-        text: error.message || 'Por favor, tente novamente.',
+        text: 'Não foi possível atualizar sua foto de perfil'
       });
     } finally {
       setIsUpdatingAvatar(false);
@@ -222,17 +227,6 @@ export function InfoUsuario({
     }
   };
 
-  const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setAvatarPreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
   return (
     <div className="flex items-center gap-3 w-full min-w-0 relative">
       {/* Input file oculto */}
@@ -241,7 +235,7 @@ export function InfoUsuario({
         type="file"
         accept="image/jpeg,image/png"
         className="hidden"
-        onChange={handleFileChange}
+        onChange={handleAvatarChange}
       />
 
       {/* Avatar com menu de contexto */}

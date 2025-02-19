@@ -42,6 +42,7 @@ interface ListaConversasProps {
 export function ListaConversas({ onConversaSelect, onAvatarUpdate }: ListaConversasProps) {
   const [usuario, setUsuario] = useState<User | null>(null);
   const [showUserInfo, setShowUserInfo] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<Usuario | null>(null);
 
   useEffect(() => {
     carregarUsuario();
@@ -64,6 +65,14 @@ export function ListaConversas({ onConversaSelect, onAvatarUpdate }: ListaConver
     if (usuario) {
       setUsuario({ ...usuario, nome: newName });
     }
+  };
+
+  const handleUserSelect = (user: Usuario) => {
+    setSelectedUser({
+      ...user,
+      username: user.username || '',
+      bio: user.bio || ''
+    });
   };
 
   return (

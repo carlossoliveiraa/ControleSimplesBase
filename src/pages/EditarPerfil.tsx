@@ -6,18 +6,24 @@ import { formatPhoneNumber } from '../utils/formatters';
 import Swal from 'sweetalert2';
 import InputMask from 'react-input-mask';
 
+interface FormData {
+  nome: string;
+  telefone: string;
+  data_nascimento: string;
+  avatar_url: string | null;
+}
+
 export function EditarPerfil() {
   const navigate = useNavigate();
   const { user, setUser } = useAuthStore();
   const [isLoading, setIsLoading] = useState(false);
   const [isUpdatingAvatar, setIsUpdatingAvatar] = useState(false);
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     nome: user?.nome || '',
     telefone: user?.telefone || '',
     data_nascimento: user?.data_nascimento || '',
-    avatar_url: user?.avatar_url || '',
-    configuracoes: user?.configuracoes || { tema: 'light', idioma: 'pt-BR' }
+    avatar_url: user?.avatar_url || null
   });
 
   useEffect(() => {
@@ -26,8 +32,7 @@ export function EditarPerfil() {
         nome: user.nome || '',
         telefone: formatPhoneNumber(user.telefone) || '',
         data_nascimento: user.data_nascimento || '',
-        avatar_url: user.avatar_url || '',
-        configuracoes: user.configuracoes || { tema: 'light', idioma: 'pt-BR' }
+        avatar_url: user.avatar_url || null
       });
     }
   }, [user]);
@@ -43,10 +48,16 @@ export function EditarPerfil() {
       if (error) throw error;
       
       if (updatedUser) {
-        setUser(updatedUser);
+        setUser({
+          ...updatedUser,
+          configuracoes: updatedUser.configuracoes || {
+            tema: 'light',
+            idioma: 'pt-BR'
+          }
+        });
         setFormData(prev => ({
           ...prev,
-          avatar_url: updatedUser.avatar_url || ''
+          avatar_url: updatedUser.avatar_url || null
         }));
 
         await Swal.fire({
@@ -69,39 +80,11 @@ export function EditarPerfil() {
     }
   };
 
-  const handleRemoveAvatar = async () => {
-    if (!user?.id) return;
-
-    try {
-      setIsUpdatingAvatar(true);
-      const { user: updatedUser, error } = await userService.removeAvatar(user.id);
-      
-      if (error) throw error;
-      
-      if (updatedUser) {
-        setUser(updatedUser);
-        setFormData(prev => ({
-          ...prev,
-          avatar_url: ''
-        }));
-
-        await Swal.fire({
-          icon: 'success',
-          title: 'Foto removida!',
-          timer: 1500,
-          showConfirmButton: false
-        });
-      }
-    } catch (error: any) {
-      console.error('Erro ao remover foto:', error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Erro ao remover foto',
-        text: error.message
-      });
-    } finally {
-      setIsUpdatingAvatar(false);
-    }
+  const handleRemoveAvatar = () => {
+    setFormData(prev => ({
+      ...prev,
+      avatar_url: null
+    }));
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -121,7 +104,13 @@ export function EditarPerfil() {
       if (error) throw error;
 
       if (updatedUser) {
-        setUser(updatedUser);
+        setUser({
+          ...updatedUser,
+          configuracoes: updatedUser.configuracoes || {
+            tema: 'light',
+            idioma: 'pt-BR'
+          }
+        });
         await Swal.fire({
           icon: 'success',
           title: 'Perfil atualizado!',
