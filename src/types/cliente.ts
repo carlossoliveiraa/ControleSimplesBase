@@ -5,7 +5,7 @@ export interface Cliente {
   telefone: string;
   cpf: string;
   data_nascimento: string;
-  sexo: 'M' | 'F' | 'O';
+  sexo: 'M' | 'F';
   cep: string;
   endereco: string;
   numero: string;
@@ -23,7 +23,7 @@ export interface ClienteFormData {
   telefone: string;
   cpf: string;
   data_nascimento: string;
-  sexo: 'M' | 'F' | 'O';
+  sexo: 'M' | 'F';
   cep: string;
   endereco: string;
   numero: string;

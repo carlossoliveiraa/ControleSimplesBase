@@ -1,6 +1,6 @@
 import { useState, useEffect, FormEvent } from 'react';
 import { clienteService } from '../services/clientes';
-import type { Cliente, ClienteFormData } from '../types';
+import type { Cliente, ClienteFormData } from '../types/cliente';
 import Swal from 'sweetalert2';
 
 interface ClienteFormProps {
