@@ -28,35 +28,17 @@ export function ClienteForm({ cliente, onClose, onSave }: ClienteFormProps) {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    if (cliente) {
-      setFormData({
-        nome: cliente.nome,
-        email: cliente.email,
-        telefone: cliente.telefone,
-        cpf: cliente.cpf,
-        data_nascimento: cliente.data_nascimento,
-        sexo: cliente.sexo,
-        cep: cliente.cep,
-        endereco: cliente.endereco,
-        numero: cliente.numero,
-        bairro: cliente.bairro,
-        observacoes: cliente.observacoes || '',
-        ativo: cliente.ativo,
-        avatar_url: cliente.avatar_url
-      });
-    }
-  }, [cliente]);
-
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
       if (cliente) {
-        await clienteService.atualizar(cliente.id, formData);
+        const { error } = await clienteService.atualizar(cliente.id, formData);
+        if (error) throw error;
       } else {
-        await clienteService.criar(formData);
+        const { error } = await clienteService.criar(formData);
+        if (error) throw error;
       }
 
       Swal.fire({
@@ -67,12 +49,12 @@ export function ClienteForm({ cliente, onClose, onSave }: ClienteFormProps) {
       });
 
       onSave();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erro ao salvar cliente:', error);
       Swal.fire({
         icon: 'error',
-        title: 'Erro ao salvar cliente',
-        text: 'Tente novamente mais tarde'
+        title: 'Erro',
+        text: error.message || 'Não foi possível salvar o cliente'
       });
     } finally {
       setIsLoading(false);
@@ -81,8 +63,8 @@ export function ClienteForm({ cliente, onClose, onSave }: ClienteFormProps) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-        <div className="p-6 border-b border-gray-200">
+      <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+        <div className="px-6 py-4 border-b border-gray-200">
           <h2 className="text-xl font-semibold text-gray-800">
             {cliente ? 'Editar Cliente' : 'Novo Cliente'}
           </h2>
@@ -94,10 +76,9 @@ export function ClienteForm({ cliente, onClose, onSave }: ClienteFormProps) {
               <label className="block text-sm font-medium text-gray-700">Nome</label>
               <input
                 type="text"
-                name="nome"
                 value={formData.nome}
                 onChange={(e) => setFormData({ ...formData, nome: e.target.value })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#4A90E2] focus:ring-[#4A90E2]"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 required
               />
             </div>
@@ -106,10 +87,9 @@ export function ClienteForm({ cliente, onClose, onSave }: ClienteFormProps) {
               <label className="block text-sm font-medium text-gray-700">Email</label>
               <input
                 type="email"
-                name="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#4A90E2] focus:ring-[#4A90E2]"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 required
               />
             </div>
@@ -117,20 +97,18 @@ export function ClienteForm({ cliente, onClose, onSave }: ClienteFormProps) {
             {/* Adicione os outros campos aqui... */}
           </div>
 
-          <div className="mt-8 flex justify-end gap-4">
+          <div className="mt-6 flex justify-end gap-4">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-gray-700 hover:text-gray-900"
+              className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-500"
             >
               Cancelar
             </button>
             <button
               type="submit"
               disabled={isLoading}
-              className={`px-4 py-2 bg-[#4A90E2] text-white rounded-lg hover:bg-[#357ABD] transition-colors ${
-                isLoading ? 'opacity-70 cursor-not-allowed' : ''
-              }`}
+              className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
             >
               {isLoading ? 'Salvando...' : 'Salvar'}
             </button>

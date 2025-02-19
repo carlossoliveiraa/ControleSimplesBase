@@ -1,4 +1,4 @@
-export * from './user';
+export * from './cliente';
 export * from './auth';
 
 export interface Usuario {

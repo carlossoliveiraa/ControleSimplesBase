@@ -1,10 +1,10 @@
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Variáveis de ambiente do Supabase não configuradas');
+if (!supabaseUrl || !supabaseKey) {
+  throw new Error('Supabase URL e Key são obrigatórios');
 }
 
 // Configurações de segurança do cliente
@@ -23,24 +23,4 @@ const supabaseOptions = {
   }
 };
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, supabaseOptions);
-
-// Tipos para as tabelas do Supabase
-export type Usuario = {
-  id: string;
-  email: string;
-  nome: string;
-  avatar_url: string | null;
-  status: 'online' | 'offline';
-  ultimo_acesso: string | null;
-  created_at: string;
-  updated_at: string;
-  username: string | null;
-  bio: string | null;
-  telefone: string | null;
-  configuracoes: {
-    notificacoes: boolean;
-    tema: 'light' | 'dark';
-    idioma: string;
-  } | null;
-} 
+export const supabase = createClient(supabaseUrl, supabaseKey, supabaseOptions); 
