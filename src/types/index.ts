@@ -1,20 +1,18 @@
+export * from './user';
+export * from './cliente';
+export * from './auth';
+
 export interface Usuario {
   id: string;
-  email: string;
   nome: string;
+  email: string;
   avatar_url: string | null;
-  status: string;
-  ultimo_acesso: string | null;
-  telefone: string | null;
-  data_nascimento: string | null;
+  username?: string;
+  bio?: string;
   configuracoes: {
-    tema: string;
+    tema: 'light' | 'dark';
     idioma: string;
-    emails_marketing?: boolean;
-    estoque_minimo_alerta?: number;
   };
-  created_at?: string;
-  updated_at?: string;
 }
 
 export interface Conversa {

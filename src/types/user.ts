@@ -9,6 +9,10 @@ export interface User {
   ultimo_acesso: string | null;
   created_at: string;
   updated_at: string;
+  configuracoes: {
+    tema: 'light' | 'dark';
+    idioma: string;
+  };
 }
 
 export interface UserUpdateDTO {
@@ -16,6 +20,10 @@ export interface UserUpdateDTO {
   telefone?: string;
   data_nascimento?: string;
   avatar_url?: string | null;
+  configuracoes?: {
+    tema: 'light' | 'dark';
+    idioma: string;
+  };
 }
 
 export interface AuthResponse {

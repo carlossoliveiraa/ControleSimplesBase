@@ -90,7 +90,31 @@ export function ClienteForm({ cliente, onClose, onSave }: ClienteFormProps) {
 
         <form onSubmit={handleSubmit} className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* ... campos do formulário ... */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Nome</label>
+              <input
+                type="text"
+                name="nome"
+                value={formData.nome}
+                onChange={(e) => setFormData({ ...formData, nome: e.target.value })}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#4A90E2] focus:ring-[#4A90E2]"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Email</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#4A90E2] focus:ring-[#4A90E2]"
+                required
+              />
+            </div>
+
+            {/* Adicione os outros campos aqui... */}
           </div>
 
           <div className="mt-8 flex justify-end gap-4">

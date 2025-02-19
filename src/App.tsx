@@ -9,6 +9,7 @@ import { BaseLayout } from './pages/layouts/BaseLayout'
 import { Configuracoes } from './pages/Configuracoes'
 import { Ajuda } from './pages/Ajuda'
 import { RotaProtegida } from './components/RotaProtegida'
+import { Clientes } from './pages/Clientes'
 import './App.css'
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
                 <Route path="/perfil" element={<EditarPerfil />} />
                 <Route path="/configuracoes" element={<Configuracoes />} />
                 <Route path="/ajuda" element={<Ajuda />} />
+                <Route path="/clientes" element={<Clientes />} />
               </Route>
             </Route>
 

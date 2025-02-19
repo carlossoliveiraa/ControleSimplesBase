@@ -18,6 +18,13 @@ interface ValidationResult {
   validName?: string;
 }
 
+interface UpdateAvatarResponse {
+  profile: {
+    avatar_url: string;
+  } | null;
+  error: Error | null;
+}
+
 export function InfoUsuario({ 
   nome, 
   email, 
@@ -156,11 +163,11 @@ export function InfoUsuario({
 
     try {
       setIsUpdatingAvatar(true);
-      const { publicUrl, error } = await authService.updateAvatar(userId, file);
+      const { profile, error } = await authService.updateAvatar(userId, file) as UpdateAvatarResponse;
       
       if (error) throw error;
-      if (publicUrl) {
-        onAvatarUpdate(publicUrl);
+      if (profile?.avatar_url) {
+        onAvatarUpdate(profile.avatar_url);
       }
     } catch (error: any) {
       console.error('Erro ao atualizar avatar:', error);

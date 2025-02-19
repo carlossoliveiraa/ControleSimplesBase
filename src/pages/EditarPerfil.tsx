@@ -17,6 +17,7 @@ export function EditarPerfil() {
     telefone: user?.telefone || '',
     data_nascimento: user?.data_nascimento || '',
     avatar_url: user?.avatar_url || '',
+    configuracoes: user?.configuracoes || { tema: 'light', idioma: 'pt-BR' }
   });
 
   useEffect(() => {
@@ -26,6 +27,7 @@ export function EditarPerfil() {
         telefone: formatPhoneNumber(user.telefone) || '',
         data_nascimento: user.data_nascimento || '',
         avatar_url: user.avatar_url || '',
+        configuracoes: user.configuracoes || { tema: 'light', idioma: 'pt-BR' }
       });
     }
   }, [user]);
@@ -80,7 +82,7 @@ export function EditarPerfil() {
         setUser(updatedUser);
         setFormData(prev => ({
           ...prev,
-          avatar_url: null
+          avatar_url: ''
         }));
 
         await Swal.fire({

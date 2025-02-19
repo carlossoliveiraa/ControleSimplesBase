@@ -13,8 +13,8 @@ export function Principal() {
     return new Date(data).toLocaleDateString('pt-BR');
   };
 
-  const idade = calcularIdade(user?.data_nascimento);
-  const signo = getSigno(user?.data_nascimento);
+  const idade = calcularIdade(user?.data_nascimento || null);
+  const signo = getSigno(user?.data_nascimento || null);
 
   return (
     <div className="w-full">
@@ -69,14 +69,14 @@ export function Principal() {
                 <div className="space-y-1">
                   <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Telefone</h3>
                   <p className="text-lg text-gray-900 dark:text-white">
-                    {formatPhoneNumber(user?.telefone) || '-'}
+                    {formatPhoneNumber(user?.telefone || null) || '-'}
                   </p>
                 </div>
 
                 <div className="space-y-1">
                   <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Data de Nascimento</h3>
                   <p className="text-lg text-gray-900 dark:text-white">
-                    {formatarData(user?.data_nascimento) || '-'}
+                    {formatarData(user?.data_nascimento || null) || '-'}
                   </p>
                 </div>
 

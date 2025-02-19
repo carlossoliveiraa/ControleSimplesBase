@@ -3,6 +3,7 @@ import { ConversaItem } from './ConversaItem';
 import { InfoUsuario } from './InfoUsuario';
 import { authService } from '../services/auth';
 import type { Usuario } from '../lib/supabase';
+import type { User } from '../types/user';
 
 interface Conversa {
   id: string;
@@ -39,7 +40,7 @@ interface ListaConversasProps {
 }
 
 export function ListaConversas({ onConversaSelect, onAvatarUpdate }: ListaConversasProps) {
-  const [usuario, setUsuario] = useState<Usuario | null>(null);
+  const [usuario, setUsuario] = useState<User | null>(null);
   const [showUserInfo, setShowUserInfo] = useState(false);
 
   useEffect(() => {
@@ -53,7 +54,7 @@ export function ListaConversas({ onConversaSelect, onAvatarUpdate }: ListaConver
     }
   }
 
-  const handleAvatarUpdate = (newAvatarUrl: string) => {
+  const handleAvatarUpdate = (newAvatarUrl: string | null) => {
     if (usuario) {
       setUsuario({ ...usuario, avatar_url: newAvatarUrl });
     }
