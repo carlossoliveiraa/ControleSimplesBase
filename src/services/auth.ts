@@ -65,7 +65,9 @@ export const authService = {
         configuracoes: profile.configuracoes || {
           tema: 'light',
           idioma: 'pt-BR'
-        }
+        },
+        created_at: profile.created_at || new Date().toISOString(),
+        updated_at: profile.updated_at || new Date().toISOString()
       };
 
       return { session, user: userData };
@@ -122,7 +124,9 @@ export const authService = {
               configuracoes: {
                 tema: 'light',
                 idioma: 'pt-BR'
-              }
+              },
+              created_at: null,
+              updated_at: null
             } as Usuario,
             error: null
           };
@@ -142,7 +146,9 @@ export const authService = {
         configuracoes: profile.configuracoes || {
           tema: 'light',
           idioma: 'pt-BR'
-        }
+        },
+        created_at: profile.created_at || new Date().toISOString(),
+        updated_at: profile.updated_at || new Date().toISOString()
       };
 
       return { user: userData, error: null };

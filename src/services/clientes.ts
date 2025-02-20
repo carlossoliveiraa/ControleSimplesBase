@@ -1,5 +1,5 @@
 import { supabase } from '../lib/supabase';
-import type { Cliente, ClienteFormData } from '../types/cliente';
+import type { Cliente, ClienteFormData } from '../types';
 
 class ClienteService {
   private static instance: ClienteService;
